@@ -13,7 +13,6 @@
 - [Model Performance](#model-performance)
 - [Project Structure](#project-structure)
 - [Dependencies](#dependencies)
-  
 
 ## 🎯 Overview
 
@@ -60,8 +59,8 @@ The project uses the **Credit Card Fraud Detection Dataset** loaded directly fro
 
 #### Step 1: Clone Repository
 ```bash
-git clone https://github.com/shadikkhan/Fraud-Detection-Random-Forest.git
-cd Fraud-Detection-Random-Forest
+git clone https://github.com/YOUR_USERNAME/fraud-detection-project.git
+cd fraud-detection-project
 ```
 
 #### Step 2: Create Virtual Environment (Recommended)
@@ -103,54 +102,66 @@ jupyter notebook
 2. Run all cells sequentially
 3. Review results and visualizations
 
-### Option 2: MyBinder (No Installation Required)
-
-Click the **"launch binder"** badge at the top to run the notebook directly in your browser:
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/YOUR_USERNAME/fraud-detection-project/HEAD?labpath=fraud_detection_random_forest.ipynb)
-
-*Note: You'll need to upload the dataset manually in MyBinder*
-
-### Option 3: Google Colab
-1. Upload the notebook to Google Colab
-2. Install requirements: `!pip install imbalanced-learn`
-3. Upload the dataset using Colab's file upload feature
 
 ## 📖 Usage
 
 ### Quick Start
 ```python
-# Basic usage example
+# Basic usage example - matches the actual implementation
+import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
-# Load and preprocess data
-df = pd.read_csv('creditcard.csv')
-X = df.drop('Class', axis=1)
-y = df['Class']
+# Set random seed for reproducibility
+np.random.seed(42)
 
-# Scale features
+# Load data directly from URL
+url = "https://storage.googleapis.com/download.tensorflow.org/data/creditcard.csv"
+df = pd.read_csv(url)
+
+# Prepare features and target
+X = df.drop('Class', axis=1).values
+y = df['Class'].values
+
+# Scale features using StandardScaler
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
+# Split data with stratification
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled, y, test_size=0.2, random_state=42, stratify=y
+)
+
 # Apply SMOTE for class balance
 smote = SMOTE(random_state=42)
-X_resampled, y_resampled = smote.fit_resample(X_scaled, y)
+X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 
-# Train Random Forest
-model = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
-model.fit(X_resampled, y_resampled)
+# Train Random Forest with optimized parameters
+model = RandomForestClassifier(
+    n_estimators=100,        
+    max_depth=20,           
+    min_samples_split=10,   
+    min_samples_leaf=5,    
+    max_features='sqrt',    
+    n_jobs=-1,             
+    random_state=42
+)
+model.fit(X_train_resampled, y_train_resampled)
 ```
 
 ### Notebook Sections
-1. **Data Loading & Exploration**: Dataset overview and basic statistics
-2. **Data Preprocessing**: Feature scaling and preparation
-3. **Class Imbalance Handling**: SMOTE implementation
-4. **Model Training**: Random Forest with optimized parameters
-5. **Model Evaluation**: Comprehensive metrics and visualization
-6. **Results Analysis**: Confusion matrix and performance interpretation
+1. **Package Installation**: Installing required dependencies (numpy, pandas, scikit-learn, scipy, pytest, imbalanced-learn, matplotlib, seaborn)
+2. **Data Loading & Exploration**: Loading dataset from TensorFlow URL and basic statistics
+3. **Data Preprocessing**: Feature scaling with StandardScaler and stratified train-test split
+4. **Class Imbalance Analysis**: Detailed fraud vs non-fraud transaction counts and percentages
+5. **SMOTE Implementation**: Synthetic minority oversampling for balanced training data
+6. **Model Training**: Random Forest with optimized hyperparameters
+7. **Model Evaluation**: Comprehensive metrics including classification report and confusion matrix
+8. **Visualization**: Confusion matrix heatmap with matplotlib and seaborn
 
 ## 📈 Model Performance
 
@@ -163,9 +174,11 @@ model.fit(X_resampled, y_resampled)
 
 ### Performance Optimizations
 - **n_jobs=-1**: Utilizes all CPU cores for parallel processing
-- **max_depth=10**: Prevents overfitting and reduces training time
-- **min_samples_split=20**: Optimizes tree splitting for performance
-- **SMOTE**: Addresses class imbalance effectively
+- **max_depth=20**: Optimized depth to prevent overfitting while maintaining performance
+- **min_samples_split=10**: Optimizes tree splitting for performance
+- **min_samples_leaf=5**: Ensures sufficient samples in leaf nodes
+- **max_features='sqrt'**: Uses square root of features for optimal performance
+- **SMOTE**: Addresses class imbalance effectively with 50-50 distribution in training data
 
 ## 📁 Project Structure
 
@@ -174,23 +187,26 @@ fraud-detection-project/
 ├── README.md                              # Project documentation
 ├── requirements.txt                       # Python dependencies
 ├── fraud_detection_random_forest.ipynb    # Main analysis notebook
-├── creditcard.csv                         # Dataset (not included in repo)
-├── .gitignore                            # Git ignore rules
-└── images/                               # Screenshots and plots (optional)
-    └── confusion_matrix.png
+├── fraud_detection_random_forest-v1.ipynb # Previous version
+├── fraud_detection_nn.ipynb              # Neural network implementation
+├── creditcard123.csv                     # Local dataset copy (optional)
+├── data/                                 # Data directory
+└── .gitignore                           # Git ignore rules
 ```
 
 ## 🔧 Dependencies
 
 ### Core Libraries
+- **numpy** (≥1.21.0): Numerical computing and array operations
 - **pandas** (≥1.3.0): Data manipulation and analysis
-- **numpy** (≥1.21.0): Numerical computing
-- **scikit-learn** (≥1.0.0): Machine learning algorithms
-- **imbalanced-learn** (≥0.8.0): SMOTE implementation
+- **scikit-learn** (≥1.0.0): Machine learning algorithms and preprocessing
+- **imbalanced-learn** (≥0.8.0): SMOTE implementation for handling class imbalance
+- **scipy** (≥1.7.0): Scientific computing utilities
+- **pytest** (≥6.0.0): Testing framework
 
 ### Visualization
-- **matplotlib** (≥3.5.0): Basic plotting
-- **seaborn** (≥0.11.0): Statistical visualizations
+- **matplotlib** (≥3.5.0): Basic plotting and visualization
+- **seaborn** (≥0.11.0): Statistical visualizations and heatmaps
 
 ### Development
 - **jupyterlab** (≥3.0.0): Interactive development environment
@@ -200,46 +216,29 @@ fraud-detection-project/
 
 ### Common Issues
 
-1. **Dataset Not Found**
+1. **Dataset Loading Issues**
    ```bash
-   FileNotFoundError: [Errno 2] No such file or directory: 'creditcard.csv'
+   URLError: <urlopen error [Errno 8] nodename nor servname provided>
    ```
-   **Solution**: Download the dataset and place it in the project root directory
+   **Solution**: Check internet connection or use a local copy of the dataset
 
 2. **Memory Issues**
    ```bash
    MemoryError: Unable to allocate array
    ```
-   **Solution**: Use data sampling or increase system RAM
+   **Solution**: Increase system RAM or use data sampling techniques
 
-3. **Slow Training**
-   ```bash
-   RandomForestClassifier taking too long
-   ```
-   **Solution**: Reduce `n_estimators` or use the optimized parameters provided
-
-4. **Import Errors**
+3. **Package Installation Errors**
    ```bash
    ModuleNotFoundError: No module named 'imblearn'
    ```
    **Solution**: Install missing packages: `pip install imbalanced-learn`
 
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+4. **Slow Training Performance**
+   ```bash
+   RandomForestClassifier taking too long
+   ```
+   **Solution**: The optimized parameters should provide good performance, but you can reduce `n_estimators` for faster training
 
 
-
-## 🙏 Acknowledgments
-
-- Credit Card Fraud Detection Dataset from [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud)
-- scikit-learn and imbalanced-learn communities
-- Jupyter Project for the amazing notebook environment
-
+**Happy Fraud Detection! 🔍💳**
