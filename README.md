@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0%2B-orange.svg)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Binder](https://mybinder.org/badge_logo.svg)]([![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shadikkhan/Fraud-Detection-Random-Forest/HEAD?urlpath=%2Fdoc%2Ftree%2Ffraud_detection_random_forest.ipynb))
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shadikkhan/Fraud-Detection-Random-Forest/HEAD?urlpath=%2Fdoc%2Ftree%2Ffraud_detection_random_forest.ipynb)
 
 ## 📋 Table of Contents
 - [Overview](#overview)
