@@ -61,8 +61,8 @@ The project uses the **Credit Card Fraud Detection Dataset** which contains:
 
 #### Step 1: Clone Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/fraud-detection-project.git
-cd fraud-detection-project
+git clone https://github.com/shadikkhan/Fraud-Detection-Random-Forest.git
+cd Fraud-Detection-Random-Forest
 ```
 
 #### Step 2: Create Virtual Environment (Recommended)
