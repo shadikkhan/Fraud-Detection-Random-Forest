@@ -3,7 +3,6 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0%2B-orange.svg)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/YOUR_USERNAME/fraud-detection-project/HEAD?labpath=fraud_detection_random_forest.ipynb)
 
 ## 📋 Table of Contents
 - [Overview](#overview)
@@ -14,8 +13,7 @@
 - [Model Performance](#model-performance)
 - [Project Structure](#project-structure)
 - [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
+  
 
 ## 🎯 Overview
 
@@ -38,7 +36,8 @@ This project implements a machine learning solution for credit card fraud detect
 
 ## 📊 Dataset
 
-The project uses the **Credit Card Fraud Detection Dataset** which contains:
+The project uses the **Credit Card Fraud Detection Dataset** loaded directly from TensorFlow's data repository:
+- **Data Source**: `https://storage.googleapis.com/download.tensorflow.org/data/creditcard.csv`
 - **284,807 transactions** over 2 days in September 2013
 - **492 fraudulent transactions** (0.172% of all transactions)
 - **30 features**: 28 anonymized (V1-V28), Time, Amount, and Class
@@ -82,10 +81,13 @@ fraud_detection_env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### Step 4: Download Dataset
-1. Download the Credit Card Fraud Detection dataset from [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardfraud)
-2. Place `creditcard.csv` in the project root directory
-3. Or update the data path in the notebook if placing elsewhere
+#### Step 4: Dataset Loading
+The dataset is automatically loaded from TensorFlow's data repository via URL:
+```python
+url = "https://storage.googleapis.com/download.tensorflow.org/data/creditcard.csv"
+df = pd.read_csv(url)
+```
+No manual download required - the notebook handles data loading automatically.
 
 #### Step 5: Launch Jupyter Notebook
 ```bash
@@ -222,11 +224,6 @@ fraud-detection-project/
    ```
    **Solution**: Install missing packages: `pip install imbalanced-learn`
 
-### Performance Tips
-- Use virtual environments to avoid dependency conflicts
-- Ensure sufficient RAM (8GB+ recommended)
-- Close other applications during training
-- Use SSD storage for faster data loading
 
 ## 🤝 Contributing
 
@@ -238,16 +235,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-### Areas for Contribution
-- Additional machine learning models (XGBoost, Neural Networks)
-- Advanced feature engineering
-- Real-time prediction API
-- Docker containerization
-- Model interpretability (SHAP, LIME)
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -255,13 +243,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - scikit-learn and imbalanced-learn communities
 - Jupyter Project for the amazing notebook environment
 
-## 📞 Contact
-
-For questions or suggestions, please:
-- Open an issue on GitHub
-- Contact: [your.email@example.com]
-- LinkedIn: [Your LinkedIn Profile]
-
----
-
-**Happy Fraud Detection! 🔍💳**
